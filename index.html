@@ -16,8 +16,9 @@
 
 <header class="site-header">
   <div class="bar wrap">
-    <a class="brand" href="#top">Adesh R Bhat</a>
-    <nav class="site-nav" aria-label="Primary">
+    <a class="brand" href="index.html#top" aria-label="Adesh R Bhat home">Adesh R Bhat</a>
+    <button class="menu-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-icon" aria-hidden="true">☰</span><span class="menu-label">Menu</span></button>
+    <nav class="site-nav" id="primary-navigation" aria-label="Primary">
       <ul>
         <li><a href="#about">About</a></li>
         <li><a href="#skills">Skills</a></li>
@@ -267,7 +268,9 @@
       <div class="actions contact-actions">
         <a class="btn btn-primary" href="mailto:adeshrbhat@gmail.com?subject=Interview%20Opportunity%20%E2%80%94%20Adesh%20R%20Bhat&body=Hi%20Adesh%2C%0A%0AI%20would%20like%20to%20discuss%20a%20career%20opportunity%20with%20you.%0A%0ABest%20regards%2C">Hire me <span aria-hidden="true">↗</span></a>
         <a class="btn btn-secondary" href="https://github.com/adeshrbhat" target="_blank" rel="noopener noreferrer">View GitHub <span aria-hidden="true">↗</span></a>
+        <button class="btn btn-secondary" type="button" id="copy-email" data-email="adeshrbhat@gmail.com">Copy email</button>
       </div>
+      <p class="site-message" id="site-message" role="status" aria-live="polite" hidden></p>
       <dl class="contact-list">
         <dt>Email</dt>
         <dd><a href="mailto:adeshrbhat@gmail.com">adeshrbhat@gmail.com</a></dd>
@@ -287,7 +290,7 @@
 
 <footer class="site-footer">
   <div class="bar wrap">
-    <p>&copy; 2026 Adesh R Bhat</p>
+    <p>&copy; <span id="copyright-year">2026</span> Adesh R Bhat</p>
     <nav aria-label="Legal">
       <ul>
         <li><a href="privacy.html">Privacy policy</a></li>
@@ -299,22 +302,68 @@
 
 <script>
 (function () {
+  'use strict';
+  var menuButton = document.querySelector('.menu-toggle');
+  var nav = document.getElementById('primary-navigation');
+  if (menuButton && nav) {
+    menuButton.addEventListener('click', function () {
+      var expanded = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!expanded));
+      nav.classList.toggle('is-open', !expanded);
+      menuButton.querySelector('.menu-label').textContent = expanded ? 'Menu' : 'Close';
+      menuButton.querySelector('.menu-icon').textContent = expanded ? '☰' : '×';
+    });
+    nav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        nav.classList.remove('is-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.querySelector('.menu-label').textContent = 'Menu';
+        menuButton.querySelector('.menu-icon').textContent = '☰';
+      });
+    });
+  }
+  var year = document.getElementById('copyright-year');
+  if (year) year.textContent = String(new Date().getFullYear());
+
   var filters = document.getElementById('filters');
   var buttons = document.querySelectorAll('.filter-btn');
   var cards = document.querySelectorAll('.project-card');
-  if (!filters || !buttons.length) { return; }
-  filters.hidden = false;
-  buttons.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      buttons.forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
-      btn.setAttribute('aria-pressed', 'true');
-      var f = btn.getAttribute('data-filter');
-      cards.forEach(function (card) {
-        var cats = card.getAttribute('data-cat').split(' ');
-        card.hidden = !(f === 'all' || cats.indexOf(f) !== -1);
+  if (filters && buttons.length) {
+    filters.hidden = false;
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        buttons.forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+        btn.setAttribute('aria-pressed', 'true');
+        var filter = btn.getAttribute('data-filter');
+        cards.forEach(function (card) {
+          var categories = (card.getAttribute('data-cat') || '').split(' ');
+          card.hidden = !(filter === 'all' || categories.indexOf(filter) !== -1);
+        });
       });
     });
-  });
+  }
+  var copyButton = document.getElementById('copy-email');
+  var message = document.getElementById('site-message');
+  function showMessage(text, kind) {
+    if (!message) return;
+    message.textContent = text;
+    message.className = 'site-message ' + kind;
+    message.hidden = false;
+  }
+  if (copyButton) {
+    copyButton.addEventListener('click', function () {
+      var email = copyButton.getAttribute('data-email');
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(email).then(function () {
+          showMessage('Email address copied. You can paste it into your message.', 'success');
+        }).catch(function () {
+          showMessage('Could not copy automatically. Please use the email address shown below.', 'error');
+        });
+      } else {
+        showMessage('Automatic copying is unavailable in this browser. Please use the email address shown below.', 'error');
+      }
+    });
+  }
 })();
 </script>
 </body>
