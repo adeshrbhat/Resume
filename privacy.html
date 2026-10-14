@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Privacy policy | Adesh R Bhat</title>
-<meta name="description" content="How this portfolio website handles information when you visit it or contact Adesh R Bhat.">
+<title>Privacy Policy | Adesh R Bhat</title>
+<meta name="description" content="Privacy policy for the personal portfolio website of Adesh R Bhat, including information handled when visiting or contacting the site owner.">
 <meta name="theme-color" content="#0d1117">
 <link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -16,7 +16,7 @@
 
 <header class="site-header">
   <div class="bar wrap">
-    <a class="brand" href="index.html">Adesh R Bhat</a>
+    <a class="brand" href="index.html#top" aria-label="Adesh R Bhat home">Adesh R Bhat</a>
     <nav class="site-nav" aria-label="Primary">
       <ul>
         <li><a href="index.html">Back to portfolio</a></li>
@@ -58,7 +58,7 @@
 
 <footer class="site-footer">
   <div class="bar wrap">
-    <p>&copy; 2026 Adesh R Bhat</p>
+    <p>&copy; <span id="copyright-year">2026</span> Adesh R Bhat</p>
     <nav aria-label="Legal">
       <ul>
         <li><a href="privacy.html" aria-current="page">Privacy policy</a></li>
@@ -67,5 +67,6 @@
     </nav>
   </div>
 </footer>
+<script>document.getElementById("copyright-year").textContent = String(new Date().getFullYear());</script>
 </body>
 </html>
