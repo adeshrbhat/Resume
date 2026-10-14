@@ -644,3 +644,46 @@ body {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
 }
+
+
+/* Responsive navigation, overflow prevention and interaction feedback */
+html { scroll-behavior: smooth; overflow-x: clip; }
+body { min-width: 0; overflow-x: clip; }
+img, svg, video, canvas, iframe { max-width: 100%; }
+.wrap, .hero-grid, .skill-grid, .project-grid, .entries, .code-card, .project-card { min-width: 0; }
+pre, code { max-width: 100%; }
+pre { white-space: pre; overflow-x: auto; }
+.brand { flex: 0 0 auto; }
+.menu-toggle { display: none; }
+.site-message { margin: 16px 0 22px; padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px; overflow-wrap: anywhere; }
+.site-message.success { border-color: #23875a; color: #9be7bd; background: rgba(35,135,90,.12); }
+.site-message.error { border-color: #b94b54; color: #ffb8bd; background: rgba(185,75,84,.12); }
+button { font: inherit; cursor: pointer; }
+@media (max-width: 760px) {
+  :root { --pad: clamp(16px, 5vw, 24px); }
+  .site-header { position: sticky; top: 0; z-index: 20; }
+  .site-header .bar { position: relative; gap: 10px; padding-block: 12px; }
+  .menu-toggle { display: inline-flex; align-items: center; gap: 8px; margin-left: auto; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); }
+  .site-nav { display: none; flex-basis: 100%; width: 100%; }
+  .site-nav.is-open { display: block; }
+  .site-nav ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 14px; padding: 8px 0 4px; }
+  .site-nav a { display: block; padding: 9px 0; }
+  .hero { padding-block: 52px 58px; }
+  .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .hero h1 { overflow-wrap: anywhere; }
+  .eyebrow { font-size: .7rem; letter-spacing: .07em; }
+  .section { padding-block: 52px; }
+  .actions { align-items: stretch; }
+  .actions .btn { text-align: center; }
+  .contact-list { grid-template-columns: minmax(0, 1fr); gap: 3px; }
+  .contact-list dt { margin-top: 12px; }
+  .contact-list dd { min-width: 0; overflow-wrap: anywhere; }
+  .site-footer .bar { align-items: flex-start; flex-direction: column; }
+  .site-footer ul { flex-wrap: wrap; }
+  .project-card, .skill-group { padding: 20px; }
+}
+@media (max-width: 380px) {
+  .site-nav ul { grid-template-columns: minmax(0, 1fr); }
+  .actions .btn { width: 100%; }
+  .code-card pre { font-size: .78rem; }
+}
